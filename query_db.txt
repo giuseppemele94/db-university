@@ -2,6 +2,7 @@ CREATE DATABASE db_university;
 
 use db_university;
 
+--QUERY SELECT 
 -- 1. Selezionare tutti gli studenti nati nel 1990 (160)
 SELECT *
 FROM students 
@@ -43,3 +44,30 @@ FROM departments;
 SELECT COUNT(*) AS totale 
 FROM teachers
 WHERE phone IS NULL;
+
+-- QUERY GROUP BY 
+-- 1.Contare quanti iscritti ci sono stati ogni anno ;
+SELECT COUNT(*) AS numero_iscritti,
+YEAR(enrolment_date) AS anno 
+FROM students
+GROUP BY anno
+ORDER BY anno;
+
+-- 2.Contare gli insegnanti che hanno l'ufficio nello stesso edificio
+SELECT COUNT(*) AS stesso_edificio, office_address FROM 
+teachers
+GROUP BY office_address
+HAVING COUNT(*) > 1
+ORDER BY stesso_edificio DESC;
+
+-- 3. Calcolare la media dei voti di ogni appello d'esame
+select exam_id ,
+ROUND(AVG(vote),2) AS media_esami
+FROM exam_student
+GROUP BY exam_id;
+
+-- 4. Contare quanti corsi di laurea ci sono per ogni dipartimento
+SELECT department_id,
+COUNT(*) AS corsi_di_laurea 
+FROM degrees
+GROUP BY department_id;
